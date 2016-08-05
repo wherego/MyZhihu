@@ -51,7 +51,6 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     }
 
     private void setupRecyclerView() {
-        // Story recyclerView
         storyAdapter = new StoryAdapter();
         rvStory.setLayoutManager(new LinearLayoutManager(getContext()));
         rvStory.setAdapter(storyAdapter);
@@ -88,19 +87,9 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     }
 
     @Override
-    public void showTopStories(List<TopStory> topStories) {
-//        topStoryAdapter.setData(topStories);
-    }
-
-    @Override
-    public void showStories(List<Story> stories) {
-        storyAdapter.setData(stories);
+    public void showStories(List<Story> stories, List<TopStory> topStories) {
+        storyAdapter.setData(stories, topStories);
         cancelRefresh();
-    }
-
-    @Override
-    public void refresh() {
-
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.kb.myzhihu.story;
 
 import com.kb.myzhihu.data.Story;
 import com.kb.myzhihu.data.TopStory;
+import com.kb.myzhihu.data.Zhihu;
 
 import java.util.List;
 
@@ -11,22 +12,17 @@ import java.util.List;
 public interface StoryContract {
 
     interface StoryModel {
-        void getTopStories();
         void getZhihu();
     }
 
     interface StoryView {
         void setPresenter();
-        void showTopStories(List<TopStory> topStories);
-        void showStories(List<Story> stories);
-        void refresh();
+        void showStories(List<Story> stories, List<TopStory> topStories);
         void cancelRefresh();
     }
 
     interface StoryPresenter {
         void getStoriesFromModel();
-        void getTopStoriesFromModel();
-        void sendStoriesToView(List<Story> stories);
-        void sendTopStoriesToView(List<TopStory> topStories);
+        void sendStoriesToView(Zhihu zhihu);
     }
 }

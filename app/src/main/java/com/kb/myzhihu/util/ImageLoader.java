@@ -1,7 +1,6 @@
 package com.kb.myzhihu.util;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;

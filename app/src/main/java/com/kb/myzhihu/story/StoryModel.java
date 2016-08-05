@@ -22,12 +22,6 @@ public class StoryModel implements StoryContract.StoryModel {
     }
 
     @Override
-    public void getTopStories() {
-
-
-    }
-
-    @Override
     public void getZhihu() {
 
         // RxJava
@@ -48,8 +42,7 @@ public class StoryModel implements StoryContract.StoryModel {
 
                     @Override
                     public void onNext(Zhihu zhihu) {
-                        presenter.sendStoriesToView(zhihu.getStories());
-//                        presenter.sendTopStoriesToView(zhihu.getTopStories());
+                        presenter.sendStoriesToView(zhihu);
                     }
                 });
     }

@@ -1,13 +1,8 @@
 package com.kb.myzhihu.util;
 
 import com.kb.myzhihu.data.Story;
-import com.kb.myzhihu.data.TopStory;
 import com.kb.myzhihu.data.Zhihu;
 
-import java.io.IOException;
-import java.util.List;
-
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

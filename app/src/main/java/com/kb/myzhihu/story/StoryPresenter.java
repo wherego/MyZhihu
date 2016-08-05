@@ -1,9 +1,6 @@
 package com.kb.myzhihu.story;
 
-import com.kb.myzhihu.data.Story;
-import com.kb.myzhihu.data.TopStory;
-
-import java.util.List;
+import com.kb.myzhihu.data.Zhihu;
 
 /**
  * Created by hello_kb on 2016/8/3.
@@ -24,17 +21,8 @@ public class StoryPresenter implements StoryContract.StoryPresenter {
     }
 
     @Override
-    public void getTopStoriesFromModel() {
-        storyModel.getTopStories();
+    public void sendStoriesToView(Zhihu zhihu) {
+        storyView.showStories(zhihu.getStories(), zhihu.getTopStories());
     }
 
-    @Override
-    public void sendStoriesToView(List<Story> stories) {
-        storyView.showStories(stories);
-    }
-
-    @Override
-    public void sendTopStoriesToView(List<TopStory> topStories) {
-        storyView.showTopStories(topStories);
-    }
 }
