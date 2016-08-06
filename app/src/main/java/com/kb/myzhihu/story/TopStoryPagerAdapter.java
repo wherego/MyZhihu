@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.kb.myzhihu.R;
 import com.kb.myzhihu.data.TopStory;
-import com.squareup.picasso.Picasso;
+import com.kb.myzhihu.util.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,10 +57,12 @@ public class TopStoryPagerAdapter extends PagerAdapter {
 
         ButterKnife.bind(this, itemView);
 
-        Picasso.with(context)
+        new ImageLoader.Builder()
+                .with(context)
                 .load(topStories.get(position).getImage())
                 .fit().centerCrop()
-                .into(ivTopStory);
+                .into(ivTopStory)
+                .build().showImage();
         tvTopStory.setText(topStories.get(position).getTitle());
 
         container.addView(itemView);

@@ -24,5 +24,4 @@ public class StoryPresenter implements StoryContract.StoryPresenter {
     public void sendStoriesToView(Zhihu zhihu) {
         storyView.showStories(zhihu.getStories(), zhihu.getTopStories());
     }
-
 }

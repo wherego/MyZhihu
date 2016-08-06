@@ -25,7 +25,7 @@ public class ApiClient {
         Observable<Zhihu> getZhihuResponse();
 
         @GET("{id}")
-        Observable<Story> getStory(@Path("id") String id);
+        Observable<Story> getStory(@Path("id") int id);
     }
 
     private static Retrofit getClient() {

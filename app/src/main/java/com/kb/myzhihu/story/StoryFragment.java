@@ -1,5 +1,6 @@
 package com.kb.myzhihu.story;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -31,6 +32,8 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     private StoryPresenter presenter;
     private StoryAdapter storyAdapter;
 
+    private OnReplaceFragmentListener listener;
+
     public StoryFragment() {
         // Required empty public constructor
         setPresenter();
@@ -56,6 +59,12 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
         rvStory.setAdapter(storyAdapter);
         rvStory.setHasFixedSize(true);
 
+        storyAdapter.setOnClickListener(new StoryAdapter.OnClickListener() {
+            @Override
+            public void onClick(int storyId) {
+                listener.onReplaceFragment(storyId);
+            }
+        });
     }
 
     private void setupRefreshLayout() {
@@ -95,5 +104,26 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     @Override
     public void cancelRefresh() {
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnReplaceFragmentListener) {
+            listener = (OnReplaceFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+            + "must implement OnReplaceFragmentListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    public interface OnReplaceFragmentListener {
+        void onReplaceFragment(int storyId);
     }
 }

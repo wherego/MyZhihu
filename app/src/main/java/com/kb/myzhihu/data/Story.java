@@ -1,12 +1,17 @@
 package com.kb.myzhihu.data;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Story {
 
     private List<String> images;
-    private String id;
+    private String image;
+    private int id;
     private String title;
+    private String body;
+    @SerializedName("image_source") private String imageSource;
     private boolean multipic;
 
     public List<String> getImages() {
@@ -17,11 +22,19 @@ public class Story {
         this.images = images;
     }
 
-    public String getId() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -31,6 +44,22 @@ public class Story {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getImageSource() {
+        return imageSource;
+    }
+
+    public void setImageSource(String imageSource) {
+        this.imageSource = imageSource;
     }
 
     public int isMultipic() {

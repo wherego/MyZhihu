@@ -1,6 +1,6 @@
-package com.kb.myzhihu.story;
+package com.kb.myzhihu.storydetail;
 
-import com.kb.myzhihu.data.Zhihu;
+import com.kb.myzhihu.data.Story;
 import com.kb.myzhihu.util.ApiClient;
 
 import rx.Subscriber;
@@ -8,25 +8,24 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by hello_kb on 2016/8/3.
+ * Created by hello_kb on 2016/8/6.
  */
-public class StoryModel implements StoryContract.StoryModel {
+public class DetailModel implements DetailContract.DetailModel {
 
-    private StoryPresenter presenter;
+    private DetailPresenter presenter;
 
-    public StoryModel(StoryPresenter presenter) {
+    public DetailModel(DetailPresenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
-    public void getZhihu() {
+    public void getStory(int storyId) {
 
         // Retrofit + RxJava
-        ApiClient.getService()
-                .getZhihuResponse()
+        ApiClient.getService().getStory(storyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Zhihu>() {
+                .subscribe(new Subscriber<Story>() {
                     @Override
                     public void onCompleted() {
 
@@ -34,12 +33,12 @@ public class StoryModel implements StoryContract.StoryModel {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(Zhihu zhihu) {
-                        presenter.sendStoriesToView(zhihu);
+                    public void onNext(Story story) {
+                        presenter.sendStoryToView(story);
                     }
                 });
     }
