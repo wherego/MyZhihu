@@ -2,6 +2,7 @@ package com.kb.myzhihu.story;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,20 +31,56 @@ public class StoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private Context context;
     private List<Story> stories = new ArrayList<>();
-    private OnClickListener listener;
+
+    private OnClickListener clickListener;
+    private OnLoadMoreListener loadMoreListener;
 
     private TopStoryPagerAdapter topStoryPagerAdapter = null;
 
-    public StoryAdapter() {
+    private boolean isLoading = false;
+    private int visibleThreshold = 5;
+    private int lastVisibleItem;
+    private int totalItemCount;
 
+    public StoryAdapter(RecyclerView recyclerView) {
+        final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                totalItemCount = layoutManager.getItemCount();
+                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                if (!isLoading && totalItemCount <= lastVisibleItem + 1) {
+                    if (loadMoreListener != null) {
+                        loadMoreListener.onLoadMore();
+                    }
+                    isLoading = true;
+                }
+            }
+        });
     }
 
-    public void setData(List<Story> stories, List<TopStory> topStories) {
+    public void setData(List<Story> stories, final List<TopStory> topStories) {
         this.stories = stories;
         notifyDataSetChanged();
 
         topStoryPagerAdapter = new TopStoryPagerAdapter(context, topStories);
         topStoryPagerAdapter.notifyDataSetChanged();
+        topStoryPagerAdapter.setOnClickListener(new TopStoryPagerAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position) {
+                clickListener.onClick(topStories.get(position).getId());
+            }
+        });
+    }
+
+    public void addStories(List<Story> stories) {
+        this.stories.addAll(stories);
+        isLoading = false;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -117,8 +154,8 @@ public class StoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (listener != null) {
-                        listener.onClick(stories.get(getAdapterPosition() - 1).getId());
+                    if (clickListener != null) {
+                        clickListener.onClick(stories.get(getAdapterPosition() - 1).getId());
                     }
                 }
             });
@@ -141,7 +178,15 @@ public class StoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         void onClick(int storyId);
     }
 
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
+
     public void setOnClickListener(OnClickListener listener) {
-        this.listener = listener;
+        clickListener = listener;
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener listener) {
+        loadMoreListener = listener;
     }
 }

@@ -3,7 +3,7 @@ package com.kb.myzhihu.data;
 public class TopStory {
 
     private String image;
-    private String id;
+    private int id;
     private String title;
 
     public String getImage() {
@@ -14,11 +14,11 @@ public class TopStory {
         this.image = image;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

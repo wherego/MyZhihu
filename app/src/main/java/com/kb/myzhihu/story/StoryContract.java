@@ -13,16 +13,20 @@ public interface StoryContract {
 
     interface StoryModel {
         void getZhihu();
+        void getPreviousZhihu(String date);
     }
 
     interface StoryView {
         void setPresenter();
         void showStories(List<Story> stories, List<TopStory> topStories);
+        void showPreviousStories(List<Story> stories);
         void cancelRefresh();
     }
 
     interface StoryPresenter {
         void getStoriesFromModel();
         void sendStoriesToView(Zhihu zhihu);
+        void getPreviousStories(String date);
+        void sendPreviousStoriesToView(List<Story> stories);
     }
 }

@@ -43,4 +43,30 @@ public class StoryModel implements StoryContract.StoryModel {
                     }
                 });
     }
+
+    @Override
+    public void getPreviousZhihu(String date) {
+
+        ApiClient.getService()
+                .getPreviousZhihu(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Zhihu>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Zhihu zhihu) {
+                        presenter.sendPreviousStoriesToView(zhihu.getStories());
+                    }
+                });
+
+    }
 }

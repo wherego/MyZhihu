@@ -26,21 +26,22 @@ public class MainActivity extends AppCompatActivity implements StoryFragment.OnR
 
         setSupportActionBar(toolbar);
 
-        replaceFragment(new StoryFragment());
+        replaceFragment(null, new StoryFragment());
     }
 
     @Override
-    public void onReplaceFragment(int storyId) {
-        replaceFragment(DetailFragment.newInstance(storyId));
+    public void onReplaceFragment(StoryFragment oldFragment, int storyId) {
+        replaceFragment(oldFragment, DetailFragment.newInstance(storyId));
     }
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment oldFragment, Fragment newFragment) {
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction();
 
-        if (fragment instanceof DetailFragment) {
-            transaction.addToBackStack(null);
+        if (newFragment instanceof DetailFragment) {
+            transaction.hide(oldFragment)
+                    .addToBackStack(null);
         }
-        transaction.replace(R.id.content, fragment).commit();
+        transaction.add(R.id.content, newFragment).commit();
     }
 }

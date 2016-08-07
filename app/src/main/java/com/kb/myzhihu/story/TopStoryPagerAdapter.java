@@ -31,6 +31,8 @@ public class TopStoryPagerAdapter extends PagerAdapter {
     private Context context;
     private List<TopStory> topStories = new ArrayList<>();
 
+    private OnClickListener listener;
+
     public TopStoryPagerAdapter(Context context, List<TopStory> topStories) {
         this.context = context;
         this.topStories = topStories;
@@ -51,7 +53,7 @@ public class TopStoryPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.vp_item_top_story, container, false);
 
@@ -67,11 +69,28 @@ public class TopStoryPagerAdapter extends PagerAdapter {
 
         container.addView(itemView);
 
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onClick(position);
+                }
+            }
+        });
+
         return itemView;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+    public interface OnClickListener {
+        void onClick(int position);
+    }
+
+    public void setOnClickListener(OnClickListener listener) {
+        this.listener = listener;
     }
 }

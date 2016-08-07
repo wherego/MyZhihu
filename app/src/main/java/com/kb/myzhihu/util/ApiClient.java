@@ -26,6 +26,9 @@ public class ApiClient {
 
         @GET("{id}")
         Observable<Story> getStory(@Path("id") int id);
+
+        @GET("before/{date}")
+        Observable<Zhihu> getPreviousZhihu(@Path("date") String date);
     }
 
     private static Retrofit getClient() {

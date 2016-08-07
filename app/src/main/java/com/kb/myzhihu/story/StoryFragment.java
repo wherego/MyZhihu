@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.kb.myzhihu.R;
 import com.kb.myzhihu.data.Story;
 import com.kb.myzhihu.data.TopStory;
+import com.kb.myzhihu.util.DateUtil;
 
 import java.util.List;
 
@@ -54,15 +55,22 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     }
 
     private void setupRecyclerView() {
-        storyAdapter = new StoryAdapter();
         rvStory.setLayoutManager(new LinearLayoutManager(getContext()));
+        storyAdapter = new StoryAdapter(rvStory);
         rvStory.setAdapter(storyAdapter);
         rvStory.setHasFixedSize(true);
 
         storyAdapter.setOnClickListener(new StoryAdapter.OnClickListener() {
             @Override
             public void onClick(int storyId) {
-                listener.onReplaceFragment(storyId);
+                listener.onReplaceFragment(StoryFragment.this, storyId);
+            }
+        });
+
+        storyAdapter.setOnLoadMoreListener(new StoryAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                presenter.getPreviousStories(DateUtil.getPreviousDay());
             }
         });
     }
@@ -107,6 +115,11 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     }
 
     @Override
+    public void showPreviousStories(List<Story> stories) {
+        storyAdapter.addStories(stories);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnReplaceFragmentListener) {
@@ -124,6 +137,6 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     }
 
     public interface OnReplaceFragmentListener {
-        void onReplaceFragment(int storyId);
+        void onReplaceFragment(StoryFragment storyFragment, int storyId);
     }
 }

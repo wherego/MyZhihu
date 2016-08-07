@@ -1,7 +1,6 @@
 package com.kb.myzhihu.storydetail;
 
 import com.kb.myzhihu.data.Story;
-
 import com.kb.myzhihu.storydetail.DetailContract.DetailView;
 
 /**
