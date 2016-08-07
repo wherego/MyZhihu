@@ -1,5 +1,5 @@
 # MyZhihu
-MVP+Retrofit+RxJava
+MVP + Retrofit + RxJava
 
 ## 网络
 使用了 `Retrofit + RxJava` 进行异步网络请求
@@ -46,8 +46,14 @@ retrofit.create(ApiService.class)
         });
 ~~~
 参考文章:
+
+
 [Retrofit](http://square.github.io/retrofit/)
+
+
 [给 Android 开发者的 RxJava 详解](http://gank.io/post/560e15be2dca930e00da1083)
+
+
 [RxJava 与 Retrofit 结合的最佳实践](http://gank.io/post/56e80c2c677659311bed9841)
 
 ## 格式化 html
