@@ -134,6 +134,65 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 }
 ~~~
+
+## 使用 `ViewPager` 展示图片
+自定义 `ImagePagerAdapter` 继承自 `PagerAdapter`
+```java
+public classpublic class ImagePagerAdapter extends PagerAdapter {
+
+	private OnClickListener listener;
+
+	public ImagePagerAdapter() {
+		// do some initial work
+	}
+
+	@Override
+	public int getCount() {
+
+	}
+
+	@Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
+
+	@Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        View itemView = LayoutInflater.from(container.getContext())
+                .inflate(R.layout.vp_item_top_story, container, false);
+
+        // initial views here
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onClick(position);
+                }
+            }
+        });
+
+        // make sure to call this method
+        container.addView(itemView);
+
+        return itemView;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View) object);
+    }
+
+    public interface OnClickListener {
+        void onClick(int position);
+    }
+
+    public void setOnClickListener(OnClickListener listener) {
+        this.listener = listener;
+    }
+}
+```
+
 ## 实现加载更多功能
 1.创建接口
 ```java
@@ -158,7 +217,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
         totalItemCount = layoutManager.getItemCount();
         lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
-        if (!isLoading && totalItemCount <= lastVisibleItem + 1) {
+        if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold) {
             if (loadMoreListener != null) {
                 loadMoreListener.onLoadMore();
             }
