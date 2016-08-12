@@ -2,13 +2,13 @@
 仿知乎日报，使用 MVP + Retrofit + RxJava 实现
 
 ## 截图
-主界面
+主界面  
 ![](./screenshot/screenshot1.png)
 
 详情界面  
 ![](./screenshot/screenshot2.png)
 
-## 网络
+## 网络  
 使用了 `Retrofit + RxJava` 进行异步网络请求
 
 1.创建接口
