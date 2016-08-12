@@ -1,5 +1,14 @@
 # MyZhihu
-MVP + Retrofit + RxJava
+仿知乎日报，使用 MVP + Retrofit + RxJava 实现
+
+## 截图
+主界面
+
+<img src="/screenshot/screenshot1.jpg" width=350" height="600" />
+
+详情界面
+
+<img src="/screenshot/screenshot2.jpg" width=350" height="600" />
 
 ## 网络
 使用了 `Retrofit + RxJava` 进行异步网络请求
