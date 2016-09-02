@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">MyZhihu</string>
 
+    <string name="setting">设置</string>
+    <string name="title_night_mode">夜间模式</string>
+    <string name="key_night_mode">isNight</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

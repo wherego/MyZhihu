@@ -4,9 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,6 +30,8 @@ import butterknife.ButterKnife;
  */
 public class StoryFragment extends Fragment implements StoryContract.StoryView{
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.srl)
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.rv_story)
@@ -33,7 +40,8 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     private StoryPresenter presenter;
     private StoryAdapter storyAdapter;
 
-    private OnReplaceFragmentListener listener;
+    private OnReplaceFragmentListener replaceFragmentListener;
+    private OnSwitchDayNightListener dayNightListener;
 
     public StoryFragment() {
         // Required empty public constructor
@@ -48,8 +56,10 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
 
         ButterKnife.bind(this, view);
 
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setupRecyclerView();
         setupRefreshLayout();
+        setHasOptionsMenu(true);
 
         return view;
     }
@@ -63,7 +73,7 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
         storyAdapter.setOnClickListener(new StoryAdapter.OnClickListener() {
             @Override
             public void onClick(int storyId) {
-                listener.onReplaceFragment(StoryFragment.this, storyId);
+                replaceFragmentListener.onReplaceFragment(StoryFragment.this, storyId);
             }
         });
 
@@ -99,6 +109,22 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_night_mode:
+                dayNightListener.onSwitch();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void setPresenter() {
         presenter = new StoryPresenter(this);
     }
@@ -123,7 +149,8 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnReplaceFragmentListener) {
-            listener = (OnReplaceFragmentListener) context;
+            replaceFragmentListener = (OnReplaceFragmentListener) context;
+            dayNightListener = (OnSwitchDayNightListener) context;
         } else {
             throw new RuntimeException(context.toString()
             + "must implement OnReplaceFragmentListener");
@@ -133,10 +160,14 @@ public class StoryFragment extends Fragment implements StoryContract.StoryView{
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        replaceFragmentListener = null;
     }
 
     public interface OnReplaceFragmentListener {
         void onReplaceFragment(StoryFragment storyFragment, int storyId);
+    }
+
+    public interface OnSwitchDayNightListener {
+        void onSwitch();
     }
 }

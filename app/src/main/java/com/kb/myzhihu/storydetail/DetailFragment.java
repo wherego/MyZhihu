@@ -1,8 +1,12 @@
 package com.kb.myzhihu.storydetail;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import com.kb.myzhihu.R;
 import com.kb.myzhihu.data.Story;
 import com.kb.myzhihu.util.HtmlUtil;
 import com.kb.myzhihu.util.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,7 +79,13 @@ public class DetailFragment extends Fragment implements DetailContract.DetailVie
 
     @Override
     public void showStoryDetail(Story story) {
-        String body = HtmlUtil.formatHtml(story.getBody());
+        int currentMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isNight = false;
+        if (currentMode == Configuration.UI_MODE_NIGHT_YES) {
+            isNight = true;
+        }
+
+        String body = HtmlUtil.formatHtml(story.getBody(), isNight);
 
         wbStory.loadDataWithBaseURL("file:///android_asset/", body, "text/html", "UTF-8", "");
         tvStoryTitle.setText(story.getTitle());
@@ -82,8 +93,8 @@ public class DetailFragment extends Fragment implements DetailContract.DetailVie
         new ImageLoader.Builder()
                 .with(getContext())
                 .load(story.getImage())
-                .fit().centerCrop()
                 .into(ivStoryHeader)
                 .build().showImage();
+
     }
 }
