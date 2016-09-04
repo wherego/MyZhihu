@@ -43,4 +43,7 @@ dependencies {
 
     // Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    // debugging with stetho
+    compile 'com.facebook.stetho:stetho:1.3.1'
 }
